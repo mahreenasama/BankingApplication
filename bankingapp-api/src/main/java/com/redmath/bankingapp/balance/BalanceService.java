@@ -23,12 +23,9 @@ public class BalanceService {
         return balanceRepository.getLatestBalances();
     }
 
-    public Balance getLatestBalanceByAccountId(Long accountId, int deposit, Authentication auth){
+    public Balance getLatestBalanceByAccountId(Long accountId, Authentication auth){
         User user = userService.findByUname(auth.getName());
         if(user.getRoles().equals("ADMIN")){
-            return balanceRepository.getLatestBalanceByAccountId(accountId, accountId);
-        }
-        else if(deposit==1) {
             return balanceRepository.getLatestBalanceByAccountId(accountId, accountId);
         }
         else{
@@ -56,8 +53,8 @@ public class BalanceService {
         return balanceRepository.save(balance);
     }
 
-    public Balance updateBalanceById(Long id, Balance updatedBalance){
-        updatedBalance.setId(id);                                   //assigning the same id so that it updates, not creates
-        return balanceRepository.save(updatedBalance);
+    public Balance updateBalanceById(Long id, Balance updatedBalanceData){
+        updatedBalanceData.setId(id);                                   //assigning the same id so that it updates, not creates
+        return balanceRepository.save(updatedBalanceData);
     }
 }

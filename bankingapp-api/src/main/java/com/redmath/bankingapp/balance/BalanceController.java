@@ -1,5 +1,6 @@
 package com.redmath.bankingapp.balance;
 
+import com.redmath.bankingapp.account.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +21,34 @@ public class BalanceController {
     private final Logger logger= LoggerFactory.getLogger(getClass());
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping
+    @GetMapping("/latest")
     public ResponseEntity<Map<String, List<Balance>>> getLatestBalances(){
 
         List<Balance> balances = balanceService.getLatestBalances();
         if (balances == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(Map.of("content", balances));
     }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @GetMapping("/{accountId}")
-    public ResponseEntity<Map<String, Balance>> getLatestBalanceByAccountId(@PathVariable("accountId") Long accountId, Authentication auth){
-        Balance balance = balanceService.getLatestBalanceByAccountId(accountId, 0, auth);
+    @GetMapping("/latest/{accountId}")
+    public ResponseEntity<Map<String, Balance>> getLatestBalanceByAccountId(@PathVariable("accountId") Long accountId, Authentication auth) {
+
+        Balance balance = balanceService.getLatestBalanceByAccountId(accountId, auth);
         if (balance == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.notFound().build();              //return this in any case (its also best practice -> miss-guide the user as well)
         }
         return ResponseEntity.ok(Map.of("content", balance));
     }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @GetMapping("/balanceHistory/{accountId}")
+    @GetMapping("/{accountId}")
     public ResponseEntity<Map<String, List<Balance>>> getBalanceHistoryByAccountId(@PathVariable("accountId") Long accountId, Authentication auth){
+
         List<Balance> balances = balanceService.getBalanceHistoryByAccountId(accountId, auth);
         if (balances == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(Map.of("content", balances));
     }

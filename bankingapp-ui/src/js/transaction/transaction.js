@@ -2,7 +2,7 @@
     'use strict';
 
     function TransactionService($resource) {
-        return $resource('bankingapp/api/v1/transactions/:extraPath/:accountId/:toAccountId', {
+        return $resource('/bankingapp/api/v1/transactions/:extraPath/:accountId/:toAccountId', {
             extraPath: '@extraPath',
             accountId: '@accountId',
             toAccountId: '@toAccountId'

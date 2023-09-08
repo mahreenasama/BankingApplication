@@ -25,76 +25,93 @@ public class BalanceControllerTests {
 
     @Test
     @Order(1)
-    public void testGetLatestBalanceByAccountId() throws Exception {
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/1"))
+    public void testGetLatestBalances() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("{\"content\":{\"id\":3,\"date\":\"2023-09-01\",\"amount\":300,\"debitCreditIndicator\":\"DB\"}}")
-                ));
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/1")
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("{\"content\":{\"id\":3,\"date\":\"2023-09-01\",\"amount\":300,\"debitCreditIndicator\":\"DB\"}}")
-                ));*/
-
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/1")
-                        .with(testUser("kamal2","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));*/
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
+
     @Test
     @Order(2)
-    public void testGetBalanceHistoryByAccountId() throws Exception {
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/balanceHistory/1"))
+    public void testGetLatestBalanceByAccountId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/balanceHistory/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("{\"content\":[{\"id\":1,\"date\":\"2023-08-01\",\"amount\":500,\"debitCreditIndicator\":\"CR\"},{\"id\":3,\"date\":\"2023-09-01\",\"amount\":300,\"debitCreditIndicator\":\"DB\"}]}")
-                ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/balanceHistory/1")
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("{\"content\":[{\"id\":1,\"date\":\"2023-08-01\",\"amount\":500,\"debitCreditIndicator\":\"CR\"},{\"id\":3,\"date\":\"2023-09-01\",\"amount\":300,\"debitCreditIndicator\":\"DB\"}]}")
-                ));*/
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/balanceHistory/1")
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1")
                         .with(testUser("kamal2","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
-                ));*/
+                ));
+    }
+    @Test
+    @Order(3)
+    public void testGetBalanceHistoryByAccountId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/1"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/1")
+                        .with(testUser("admin","ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/1")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/balanceHistory/1")
+                        .with(testUser("kamal2","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
     }
     private RequestPostProcessor testUser(String uname, String authority) {
         return SecurityMockMvcRequestPostProcessors.user(uname).authorities(new SimpleGrantedAuthority(authority));

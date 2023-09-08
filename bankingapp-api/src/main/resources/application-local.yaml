@@ -1,6 +1,6 @@
 bankingapp:
   db:
-    url: jdbc:h2:mem:bankdb
+    url: jdbc:h2:mem:bankdb;MODE=MySql
     username: sa
     password:
 #  liquibase:

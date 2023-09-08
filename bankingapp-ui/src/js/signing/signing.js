@@ -2,7 +2,7 @@
     'use strict';
 
 function SigningAccountService($resource) {
-        return $resource('bankingapp/api/v1/account/:extraPath/:uname', { extraPath: '@extraPath', uname: '@uname' });
+        return $resource('/bankingapp/api/v1/account/:extraPath/:uname', { extraPath: '@extraPath', uname: '@uname' });
     }
     angular.module('bankingapp-ui').factory('SigningAccountService', ['$resource', SigningAccountService]);
 

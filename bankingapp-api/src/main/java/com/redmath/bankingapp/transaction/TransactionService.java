@@ -67,7 +67,7 @@ public class TransactionService {
 
         //now update balances after transaction as well:
         //Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, auth);
-        Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, 1, auth);
+        Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, auth);
 
 
         if(oldBalance.getDate().toString().equals(newTransaction.getDate().toString())){
@@ -97,7 +97,7 @@ public class TransactionService {
         Transaction newTransaction = transactionRepository.save(transaction);
 
         //now update balances after transaction as well:
-        Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, 0, auth);
+        Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, auth);
 
         if(oldBalance.getDate().toString().equals(newTransaction.getDate().toString())){
             //if transaction is performed on the same day, then just update balance

@@ -3,22 +3,22 @@
 
 
     function AccountService($resource) {
-        return $resource('bankingapp/api/v1/accounts/:extraPath/:id', { extraPath: '@extraPath', id: '@id' });
+        return $resource('/bankingapp/api/v1/accounts/:extraPath/:id', { extraPath: '@extraPath', id: '@id' });
     }
     angular.module('bankingapp-ui').factory('AccountService', ['$resource', AccountService]);
 
     function BalanceService($resource) {
-        return $resource('bankingapp/api/v1/balances/:extraPath/:accountId', { extraPath: '@extraPath', accountId: '@accountId' });
+        return $resource('/bankingapp/api/v1/balances/:extraPath/:accountId', { extraPath: '@extraPath', accountId: '@accountId' });
     }
     angular.module('bankingapp-ui').factory('BalanceService', ['$resource', BalanceService]);
 
     function TransactionService($resource) {
-        return $resource('bankingapp/api/v1/transactions/:extraPath/:accountId', { extraPath: '@extraPath', accountId: '@accountId' });
+        return $resource('/bankingapp/api/v1/transactions/:extraPath/:accountId', { extraPath: '@extraPath', accountId: '@accountId' });
     }
     angular.module('bankingapp-ui').factory('TransactionService', ['$resource', TransactionService]);
 
     function UserService($resource) {
-            return $resource('bankingapp/api/v1/user/:extraPath/:accId', { extraPath: '@extraPath', accId: '@accId' });
+            return $resource('/bankingapp/api/v1/users/:extraPath/:accId', { extraPath: '@extraPath', accId: '@accId' });
     }
     angular.module('bankingapp-ui').factory('UserService', ['$resource', UserService]);
 

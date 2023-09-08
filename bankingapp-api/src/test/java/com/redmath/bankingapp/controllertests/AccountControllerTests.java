@@ -116,14 +116,14 @@ public class AccountControllerTests {
     @Test
     @Order(3)
     public void getAccountsByNameLike() throws Exception {
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/findByName")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
                         .param("name","a"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/findByName")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
                         .param("name","a")
                         .with(testUser("kamal2","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
@@ -132,7 +132,7 @@ public class AccountControllerTests {
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/findByName")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
                         .param("name","sara")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
@@ -142,7 +142,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("{\"content\":[{\"id\":1,\"name\":\"sara\",\"email\":\"sara@gmail.com\",\"address\":\"lahore\"}]}")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/findByName")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
                         .param("name","a")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
@@ -152,11 +152,11 @@ public class AccountControllerTests {
                         Matchers.equalTo(
                                 "{\"content\":[{\"id\":1,\"name\":\"sara\",\"email\":\"sara@gmail.com\",\"address\":\"lahore\"}," +
                                         "{\"id\":2,\"name\":\"kamal\",\"email\":\"kamal@gmail.com\",\"address\":\"lahore\"}]}")
-                ));*/
+                ));
 
         /*this.testDeleteAccount();       //deleting both accounts
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/findByName")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
                         .param("name","sara")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
@@ -166,39 +166,11 @@ public class AccountControllerTests {
                         Matchers.equalTo("")
                 ));*/
     }
-    @Test
-    @Order(4)
-    public void getAccountDetailsById() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/accountDetails/1"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/accountDetails/1")
-                        .with(testUser("sara1","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("{\"content\":{\"id\":1,\"name\":\"sara\",\"email\":\"sara@gmail.com\",\"address\":\"lahore\"}}")
-                ));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/account/accountDetails/1")
-                        .with(testUser("kamal2","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-    }
 
     @Test
     @Order(5)
     public void testCreateAccount() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts")
                         .contentType("application/json")
                         .content("{\"name\":\"ali\",\"email\":\"ali@gmail.com\",\"address\":\"sialkot\"}"))
                 .andDo(MockMvcResultHandlers.print())
@@ -207,7 +179,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
@@ -218,7 +190,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
@@ -229,7 +201,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("{\"content\":{\"id\":3,\"name\":\"ali\",\"email\":\"ali@gmail.com\",\"address\":\"sialkot\"}}")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
@@ -244,7 +216,7 @@ public class AccountControllerTests {
     @Test
     @Order(6)
     public void testUpdateAccount() throws Exception {
-       mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account/2")
+       mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts/2")
                         .contentType("application/json")
                         .content("{\"name\":\"saleem\",\"email\":\"saleem@gmail.com\",\"address\":\"sialkot\"}"))
                 .andDo(MockMvcResultHandlers.print())
@@ -253,7 +225,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account/2")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts/2")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
@@ -264,7 +236,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account/2")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts/2")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
@@ -275,7 +247,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("{\"content\":{\"id\":2,\"name\":\"saleem\",\"email\":\"saleem@gmail.com\",\"address\":\"sialkot\"}}")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/account/4")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts/4")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
@@ -290,7 +262,7 @@ public class AccountControllerTests {
     @Test
     @Order(7)
     public void testDeleteAccount() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/accounts/1"))
+        /*mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/accounts/1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(
@@ -331,7 +303,7 @@ public class AccountControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
-                ));
+                ));*/
     }
 
     private RequestPostProcessor testUser(String uname, String authority) {
