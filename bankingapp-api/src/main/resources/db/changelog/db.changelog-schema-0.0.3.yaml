@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: schema-0.0.4
+      author: transactions team
+      changes:
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: date
+              - column:
+                  name: description
+                  type: varchar(50)
+              - column:
+                  name: amount
+                  type: int
+              - column:
+                  name: debit_credit_indicator
+                  type: varchar(10)
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: transactions
+            columnNames: id
+            constraintName: transactions_pk
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: account_id
+            referencedTableName: accounts
+            referencedColumnNames: id
+            constraintName: fk_transactions_accounts
+        - createIndex:
+            tableName: transactions
+            indexName: transactions_ix_01
+            columns:
+              - column:
+                  name: account_id

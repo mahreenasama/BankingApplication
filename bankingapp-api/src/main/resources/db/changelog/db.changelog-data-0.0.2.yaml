@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.2
+      author: balances team
+      changes:
+        - insert:
+            tableName: balances
+            columns:
+              - column:
+                  name: date
+                  value: '2023-08-01'   #year-month-date
+              - column:
+                  name: amount
+                  value: '500'
+              - column:
+                  name: debit_credit_indicator
+                  value: '+ CR'
+              - column:
+                  name: account_id
+                  value: '1'
+        - insert:
+            tableName: balances
+            columns:
+              - column:
+                  name: date
+                  value: '2023-09-01'
+              - column:
+                  name: amount
+                  value: '500'
+              - column:
+                  name: debit_credit_indicator
+                  value: '+ CR'
+              - column:
+                  name: account_id
+                  value: '2'
+        - insert:
+            tableName: balances
+            columns:
+              - column:
+                  name: date
+                  value: '2023-09-01'
+              - column:
+                  name: amount
+                  value: '300'
+              - column:
+                  name: debit_credit_indicator
+                  value: '- DB'
+              - column:
+                  name: account_id
+                  value: '1'

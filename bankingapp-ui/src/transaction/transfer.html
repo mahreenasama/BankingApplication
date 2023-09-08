@@ -1,0 +1,44 @@
+<div class="container">
+    <a class="nav-link" href="#!/transaction">
+        <button class="btn btn-outline-dark" type="button"><- Back to Transactions</button>
+    </a>
+    <form ng-submit="$ctrl.transfer()">
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <h4>Transfer Amount</h4>
+            </div>
+        </div>
+        <!--<div class="row mb-3">
+            <label class="col-sm-2 col-form-label"> Id</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" id="id" min="1" placeholder="Id" ng-model="$ctrl.transactionItem.id" autofocus />
+            </div>
+        </div>-->
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">From Account Id</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" id="fromAccountId" min="1" placeholder="From Account Id" ng-model="$ctrl.fromAccId" required autofocus />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">To Account Id</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" id="toAccountId" min="1" placeholder="To Account Id" ng-model="$ctrl.toAccId" required autofocus />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Amount (PKR)</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" min="1" id="name" placeholder="Amount" ng-model="$ctrl.amount" required />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <button class="btn btn-outline-dark" type="submit">Transfer</button>
+            </div>
+        </div>
+    </form>
+</div>

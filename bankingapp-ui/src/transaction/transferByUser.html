@@ -1,0 +1,35 @@
+<div class="container">
+
+    <form ng-submit="$ctrl.transferByUser()">
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <h4>Transfer Amount</h4>
+            </div>
+        </div>
+
+        <h6 id="TransferError" class="text-danger mb-2"></h6>
+
+
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">To Account Id</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" id="toAccountId" min="1" placeholder="To Account Id" ng-model="$ctrl.toAccId" required autofocus />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Amount (PKR)</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" min="1" id="amount" placeholder="Amount" ng-model="$ctrl.amount" required />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <button class="btn btn-outline-dark" type="submit">Transfer</button>
+            </div>
+        </div>
+    </form>
+</div>

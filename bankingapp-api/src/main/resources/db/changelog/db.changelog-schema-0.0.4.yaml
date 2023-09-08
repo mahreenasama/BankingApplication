@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: schema-0.0.3
+      author: users team
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uname
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(50)
+              - column:
+                  name: roles
+                  type: varchar(255)
+              - column:
+                  name: status
+                  type: varchar(10)
+              - column:
+                  name: account_id
+                  type: bigint
+        - addPrimaryKey:
+            tableName: users
+            columnNames: id
+            constraintName: users_pk
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: uname
+            constraintName: users_uk_01
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: account_id
+            referencedTableName: accounts
+            referencedColumnNames: id
+            constraintName: fk_users_accounts
+        - createIndex:
+            tableName: users
+            indexName: users_ix_01
+            columns:
+              - column:
+                  name: account_id

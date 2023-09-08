@@ -1,0 +1,61 @@
+<div class="container-fluid" ng-init="$ctrl.loadAccounts()">
+    <div class="row">
+        <div class="col-2 bg-dark text-light me-5">
+            <h4 class="p-3">MENU</h4>
+            <a href="#!/createAccount">
+                <button class="btn btn-outline-light m-1" type="button">Create Account</button>
+            </a>
+            <a href="#!/transaction">
+                <button class="btn btn-outline-light m-1" type="button">Bank Transactions</button>
+            </a>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4>Search Account</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <input type="text" id="name" name="name" class="form-control" ng-model="$ctrl.name" />
+                </div>
+                <div class="col-sm-2">
+                    <input type="button" id="search" name="search" value="Search" class="btn btn-dark" ng-click="$ctrl.search()">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Balance</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="item in $ctrl.accountsBalances track by $index">
+                            <td>{{item.account.id}}</td>
+                            <td>{{item.account.name}}</td>
+                            <td>{{item.account.email}}</td>
+                            <td>{{item.account.address}}</td>
+                            <td>PKR {{item.balance.amount}} ({{item.balance.date}})</td>
+                            <td>
+                                <button class="btn btn-warning" type="button" ng-click="$ctrl.update(item.account.id)">Update</button>
+                                <button class="btn btn-danger" type="button" ng-click="$ctrl.delete(item.account.id)">Delete</button>
+                                <button class="btn btn-info" type="button" ng-click="$ctrl.viewDetails(item.account.id)">View Details</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <h6 class="text-danger" id="noMoreAccountsError"></h6>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

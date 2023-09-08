@@ -1,0 +1,24 @@
+{
+  "name": "bankingapp-ui",
+  "version": "1.0.0",
+  "description": "bankingapp-ui",
+  "main": "src/index.js",
+  "scripts": {
+    "postinstall": "npm run copy-libs",
+    "copy-libs": "cpx node_modules/{angular,angular-*,bootstrap/dist,jquery/dist}/**/* src/lib -u -C",
+    "start": "http-server src -a localhost -p 8080 -c-1 -P http://localhost:9080"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.8.3",
+    "angular-resource": "^1.8.3",
+    "angular-route": "^1.8.3",
+    "bootstrap": "^5.3.1",
+    "jquery": "^3.7.1"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "http-server": "^14.1.1"
+  }
+}

@@ -1,0 +1,43 @@
+<div class="container">
+    <a class="nav-link" href="#!/account">
+        <button class="btn btn-outline-dark" type="button"><- Back to Accounts</button>
+    </a>
+    <form ng-submit="$ctrl.save()">
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <h4>Create Account</h4>
+            </div>
+        </div>
+        <!--<div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Id</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" id="id" placeholder="Id" ng-model="$ctrl.accountItem.id" autofocus />
+            </div>
+        </div>-->
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" id="name" placeholder="Name" ng-model="$ctrl.accountItem.name" required />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="email" id="email" placeholder="Email" ng-model="$ctrl.accountItem.email" required />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Address</label>
+            <div class="col-sm-4">
+                <textarea class="form-control" rows="5" id="address" placeholder="Address" ng-model="$ctrl.accountItem.address" required> </textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <button class="btn btn-dark" type="submit">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

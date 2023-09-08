@@ -1,0 +1,48 @@
+<div class="container-fluid" ng-init="$ctrl.allTransactions()">
+    <div class="row mt-4 mb-4">
+        <div class="col-3">
+            <a href="#!/account">
+                <button class="btn btn-outline-dark m-1 w-100" type="button"><- Back To Accounts</button>
+            </a>
+        </div>
+        <div class="col-3">
+            <a href="#!/deposit">
+                <button class="btn btn-success m-1 w-100" type="button">Deposit Amount</button>
+            </a>
+        </div>
+        <div class="col-3">
+            <a href="#!/withdraw">
+                <button class="btn btn-success m-1 w-100" type="button">Withdraw Amount</button>
+            </a>
+        </div>
+        <div class="col-3">
+            <a href="#!/transfer">
+                <button class="btn btn-success m-1 w-100" type="button">Transfer Amount</button>
+            </a>
+        </div>
+    </div>
+            <div class="row" ng-if="$ctrl.showTransactions">
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Debit/Credit</th>
+                            <th>AccountId</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in ::$ctrl.transactions track by $index">
+                            <td>{{::item.date}}</td>
+                            <td>{{::item.description}}</td>
+                            <td>{{::item.amount}}</td>
+                            <td>{{::item.debitCreditIndicator}}</td>
+                            <td>{{item.account.id}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</div>

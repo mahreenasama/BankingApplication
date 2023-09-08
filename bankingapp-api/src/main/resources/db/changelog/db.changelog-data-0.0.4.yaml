@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.3
+      author: users team
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: uname
+                  value: admin
+              - column:
+                  name: password
+                  value: '{noop}admin'
+              - column:
+                  name: roles
+                  value: ADMIN
+              - column:
+                  name: status
+                  value: ACTIVE
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: uname
+                  value: sara1
+              - column:
+                  name: password
+                  value: '{noop}sara'
+              - column:
+                  name: roles
+                  value: USER
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: account_id
+                  value: '1'
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: uname
+                  value: kamal2
+              - column:
+                  name: password
+                  value: '{noop}kamal'
+              - column:
+                  name: roles
+                  value: USER
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: account_id
+                  value: '2'

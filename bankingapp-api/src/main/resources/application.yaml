@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: bankingapp
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: ${bankingapp.db.url}
+    username: ${bankingapp.db.username}
+    password: ${bankingapp.db.password}
+  h2:
+    console:
+      enabled: true
+#  liquibase:
+#    contexts: ${bankingapp.liquibase.contexts:}
+#  h2:
+#    console:
+#      enabled: ${bankingapp.h2.console:false}
+
+server:
+  port: 9080
+  servlet:
+    context-path: /bankingapp
+
+logging:
+  level:
+    sql: debug
+    web: debug
+    '[com.redmath.bankingapp]': debug
+  pattern:
+    level: "%5p ${HOSTNAME}"
+  file:
+    name: ${bankingapp.log.dir:target}/bankingapp.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: when-authorized
+
+spring.profiles.include: local
+
+

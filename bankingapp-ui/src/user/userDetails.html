@@ -1,0 +1,103 @@
+<div class="container" ng-init="$ctrl.viewUserDetails($ctrl.sharedService.loggedInUserAccountId)">
+    <div class="row">
+        <div class="col-2 bg-dark text-light me-5">
+            <h4 class="p-3">MENU</h4>
+            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewBalanceHistory($ctrl.sharedService.loggedInUserAccountId)">View Balance History</button>
+            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewTransactions($ctrl.sharedService.loggedInUserAccountId)">View Transactions</button>
+                <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.checkTransfer($ctrl.balanceItem.amount, $ctrl.sharedService.loggedInUserAccountId)">Transfer Amount</button>
+                <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.goToChangePassword($ctrl.sharedService.loggedInUserAccountId)">Change Password</button>
+
+        </div>
+
+        <div class="col">
+            <h6 id="limitedBalanceError" class="text-danger mb-2"></h6>
+
+            <div class="row mt-3 mb-3">
+                <h3>Current Balance</h3>
+                <h1>PKR {{$ctrl.balanceItem.amount}} ({{$ctrl.balanceItem.date}})</h1>
+                <hr>
+            </div>
+
+            <div class="row">
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <h4>Account Details</h4>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Id</label>
+                    <div class="col-sm-4">{{$ctrl.accountItem.id}}</div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-4">{{$ctrl.accountItem.name}}</div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-4">{{$ctrl.accountItem.email}}</div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-4">{{$ctrl.accountItem.address}}</div>
+                </div>
+                <hr>
+            </div>
+
+            <div class="row" ng-if="$ctrl.showBalanceHistory">
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <h4>Balance History</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Debit/Credit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in ::$ctrl.balanceHistory track by $index">
+                            <td>{{::item.date}}</td>
+                            <td>PKR {{::item.amount}}</td>
+                            <td>{{::item.debitCreditIndicator}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+            </div>
+
+            <div class="row" ng-if="$ctrl.showTransactions">
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <h4>Transactions</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Debit/Credit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in ::$ctrl.accountTransactions track by $index">
+                            <td>{{::item.date}}</td>
+                            <td>{{::item.description}}</td>
+                            <td>PKR {{::item.amount}}</td>
+                            <td>{{::item.debitCreditIndicator}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

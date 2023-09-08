@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: schema-0.0.2
+      author: balances team
+      changes:
+        - createTable:
+            tableName: balances
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: date
+              - column:
+                  name: amount
+                  type: int
+              - column:
+                  name: debit_credit_indicator
+                  type: varchar(10)
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - addPrimaryKey:
+                  tableName: balances
+                  columnNames: id
+                  constraintName: balances_pk
+              - addForeignKeyConstraint:
+                  baseTableName: balances
+                  baseColumnNames: account_id
+                  referencedTableName: accounts
+                  referencedColumnNames: id
+                  constraintName: fk_balances_accounts
+              - createIndex:
+                  tableName: balances
+                  indexName: balances_ix_01
+                  columns:
+                    - column:
+                        name: account_id

@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.1
+      author: accounts team
+      changes:
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: name
+                  value: 'sara'
+              - column:
+                  name: email
+                  value: 'sara@gmail.com'
+              - column:
+                  name: address
+                  value: 'lahore'
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: name
+                  value: 'kamal'
+              - column:
+                  name: email
+                  value: 'kamal@gmail.com'
+              - column:
+                  name: address
+                  value: 'lahore'
