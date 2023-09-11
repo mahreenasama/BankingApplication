@@ -1,18 +1,12 @@
 package com.redmath.bankingapp.account;
 
-import com.redmath.bankingapp.user.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +23,9 @@ public class AccountController {
     {
         List<Account> accounts = accountService.getAllAccounts();
         if (accounts.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(Map.of("content", accounts));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accounts));
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
@@ -42,7 +36,7 @@ public class AccountController {
         if(auth.getName().equals("admin")){
             account = accountService.getAccountById(id);
             if(account == null){
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         }
         else{
@@ -51,7 +45,7 @@ public class AccountController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
         }
-        return ResponseEntity.ok(Map.of("content", account));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", account));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -60,9 +54,9 @@ public class AccountController {
     {
         List<Account> accounts = accountService.getAccountsByNameLike(name);
         if (accounts.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(Map.of("content", accounts));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accounts));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -73,7 +67,7 @@ public class AccountController {
         if (createdAccount == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();  //account with this Id already exists
         }
-        return ResponseEntity.ok(Map.of("content", createdAccount));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", createdAccount));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -82,9 +76,9 @@ public class AccountController {
     {
         Account updatedAccount = accountService.updateAccountById(id, updatedAccountData);
         if (updatedAccount != null) {
-            return ResponseEntity.ok(Map.of("content", updatedAccount));
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", updatedAccount));
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -96,7 +90,7 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         else{
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }

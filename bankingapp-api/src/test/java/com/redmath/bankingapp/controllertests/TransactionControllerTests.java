@@ -25,155 +25,170 @@ public class TransactionControllerTests {
 
     @Test
     @Order(1)
-    public void testDepositAmount() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/deposit/1")
+    public void testDepositOrWithdrawAmount() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions")
+                        .param("accountId","1")
                         .contentType("application/json")
-                        .content("{\"date\":\"2023-09-01\",\"description\":\"deposit\",\"amount\":\"520\",\"debitCreditIndicator\":\"CR\"}"))
+                        .content("{\"description\":\"deposit\",\"amount\":\"520\",\"debitCreditIndicator\":\"+ CR\"}"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/deposit/1")
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions")
+                        .param("accountId","1")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
-                        .content("{\"date\":\"2023-09-01\",\"description\":\"deposit\",\"amount\":\"520\",\"debitCreditIndicator\":\"CR\"}"))
+                        .content("{\"description\":\"deposit\",\"amount\":\"520\",\"debitCreditIndicator\":\"+ CR\"}"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/deposit/1")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions")
+                        .param("accountId","1")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
-                        .content("{\"date\":\"2023-09-01\",\"description\":\"deposit\",\"amount\":\"520\",\"debitCreditIndicator\":\"CR\"}"))
+                        .content("{\"description\":\"deposit\",\"amount\":\"20\",\"debitCreditIndicator\":\"+ CR\"}"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions")
+                        .param("accountId","1")
+                        .with(testUser("admin","ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("{\"description\":\"withdraw\",\"amount\":\"20\",\"debitCreditIndicator\":\"- DB\"}"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
     @Test
     @Order(2)
-    public void testWithdrawAmount() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/withdraw/1")
-                        .contentType("application/json")
-                        .content("{\"date\":\"2023-09-01\",\"description\":\"deposit\",\"amount\":\"520\",\"debitCreditIndicator\":\"CR\"}"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isForbidden())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/withdraw/1")
-                        .with(testUser("sara1","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .contentType("application/json")
-                        .content("{\"date\":\"2023-09-01\",\"description\":\"deposit\",\"amount\":\"520\",\"debitCreditIndicator\":\"CR\"}"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/withdraw/1")
-                        .with(testUser("admin","ADMIN"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .contentType("application/json")
-                        .content("{\"date\":\"2023-09-01\",\"description\":\"deposit\",\"amount\":\"1000\",\"debitCreditIndicator\":\"CR\"}"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-
-    }
-    @Test
-    @Order(3)
     public void testTransferAmount() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/transfer/1/2")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions/transfer")
+                        .param("fromAccountId","1")
+                        .param("toAccountId","2")
                         .contentType("application/json")
-                        .content("300"))
+                        .content("30"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/transfer/1/2")
-                        .with(testUser("sara1","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .contentType("application/json")
-                        .content("300"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/transfer/1/2")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions/transfer")
+                        .param("fromAccountId","1")
+                        .param("toAccountId","2")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
-                        .content("300"))
+                        .content("30"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
-        /*mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transaction/transfer/1/3")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions/transfer")
+                        .param("fromAccountId","1")
+                        .param("toAccountId","6")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
-                        .content("300"))
+                        .content("30"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
-                ));*/
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions/transfer")
+                        .param("fromAccountId","1")
+                        .param("toAccountId","2")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("30"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions/transfer")
+                        .param("fromAccountId","2")
+                        .param("toAccountId","6")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("30"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
+
+    }
+
+    @Test
+    @Order(3)
+    public void testGetAllTransactionsByAccountId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions/transaction-history")
+                        .param("accountId","1"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions/transaction-history")
+                        .param("accountId","1")
+                        .with(testUser("admin","ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction/transaction-history")
+                        .param("accountId","5")
+                        .with(testUser("admin","ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions/transaction-history")
+                        .param("accountId","1")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions/transaction-history")
+                        .param("accountId","2")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+
     }
     @Test
     @Order(4)
-    public void testGetAllTransactionsByAccountId() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction/allTransactions/1"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction/allTransactions/1")
-                        .with(testUser("admin","ADMIN"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction/allTransactions/3")
-                        .with(testUser("admin","ADMIN"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());*/
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction/allTransactions/1")
-                        .with(testUser("sara1","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction/allTransactions/1")
-                        .with(testUser("kamal2","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());*/
-
-    }
-    @Test
-    @Order(5)
     public void testGetAllTransactions() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transaction")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())

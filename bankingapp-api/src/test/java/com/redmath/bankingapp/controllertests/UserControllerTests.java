@@ -1,5 +1,6 @@
 package com.redmath.bankingapp.controllertests;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -21,44 +25,117 @@ public class UserControllerTests {
 
     @Test
     @Order(1)
-    public void testGetUserByAccountId() throws Exception {
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/user/1"))
+    public void testFindByUname() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/findByUname")
+                        .param("uname", "sara1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/user/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/findByUname")
+                        .param("uname", "sara1")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("{\"content\":{\"id\":3,\"date\":\"2023-09-01\",\"amount\":300,\"debitCreditIndicator\":\"DB\"}}")
-                ));*/
+                        Matchers.equalTo("")
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/findByUname")
+                        .param("uname", "sara1")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
     }
+
     @Test
     @Order(2)
-    public void testChangePasswordByAccountId() throws Exception {
-        /*mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/user/changePassword/1"))
+    public void testGetUserByAccountId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
+                        .param("accountId","1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/user/changePassword/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
+                        .param("accountId","1")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("{\"content\":[{\"id\":1,\"date\":\"2023-08-01\",\"amount\":500,\"debitCreditIndicator\":\"CR\"},{\"id\":3,\"date\":\"2023-09-01\",\"amount\":300,\"debitCreditIndicator\":\"DB\"}]}")
-                ));*/
+                        Matchers.equalTo("")
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
+                        .param("accountId","1")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
+                        .param("accountId","2")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
+    }
+    @Test
+    @Order(3)
+    public void testChangePasswordByAccountId() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users/changePassword")
+                        .param("accountId","1")
+                        .contentType("application/json")
+                        .content("saraaa"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users/changePassword")
+                        .param("accountId","1")
+                        .with(testUser("admin","ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("saraaa"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users/changePassword")
+                        .param("accountId","1")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("saraaa"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users/changePassword")
+                        .param("accountId","2")
+                        .with(testUser("sara1","USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("saraaa"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
 
     }
+
     private RequestPostProcessor testUser(String uname, String authority) {
         return SecurityMockMvcRequestPostProcessors.user(uname).authorities(new SimpleGrantedAuthority(authority));
     }

@@ -17,7 +17,7 @@ public class User {
     private String status;
     @OneToOne
     @JoinColumn(name = "account_id")
-    @JsonIgnore                             //will ignore 'account' attribute while creating json object of balance
+    //@JsonIgnore                             //will ignore 'account' attribute while creating json object of balance
     private Account account;
 
     public User(){}

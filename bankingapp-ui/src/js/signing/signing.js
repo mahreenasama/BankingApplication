@@ -1,25 +1,18 @@
 (function() {
     'use strict';
 
-function SigningAccountService($resource) {
-        return $resource('/bankingapp/api/v1/account/:extraPath/:uname', { extraPath: '@extraPath', uname: '@uname' });
+
+function SigningUserService($resource) {
+        return $resource('/bankingapp/api/v1/users/:extraPath', { extraPath: '@extraPath', uname: '@uname' });
     }
-    angular.module('bankingapp-ui').factory('SigningAccountService', ['$resource', SigningAccountService]);
-
-function SigningSharedService() {
-        var uname = '';
-        var password = '';
-
-        return this;
-    }
-    angular.module('bankingapp-ui').factory('SigningSharedService', [SigningSharedService]);
+    angular.module('bankingapp-ui').factory('SigningUserService', ['$resource', SigningUserService]);
 
 
-    function SigningController($http, $location, SigningAccountService, SigningSharedService) {
+
+    function SigningController($http, $location, SigningUserService) {
         var self = this;
-        self.signingAccountService = SigningAccountService;
+        self.signingUserService = SigningUserService;
 
-        self.signingSharedService = SigningSharedService;
         self.user = {};
         self.userAccountId;
 
@@ -37,9 +30,12 @@ function SigningSharedService() {
                 if (error.status === -1) {
                     document.getElementById("loginInvalidError").innerHTML = "Username or Password Invalid!";
                 }
-                if (error.status === 403) {
+                else if (error.status === 403) {
                     self.login();
                 }
+                else {
+                $location.path('/notFound');
+                                }
             });
         }
 
@@ -47,10 +43,21 @@ function SigningSharedService() {
             if (self.user.uname == "admin") {
                 $location.path('/accounts');
             } else {
-                self.signingAccountService.get({ extraPath: 'findByUname', uname: self.user.uname }).$promise.then(function(response) {
-                    self.userAccountId = response.content.id;
+                self.signingUserService.get({ extraPath: 'findByUname', uname: self.user.uname }).$promise.then(function(response) {
+                    self.userAccountId = response.content.account.id;
                     $location.path('/userDetails/' + self.userAccountId);
-                });
+                })
+                catch(function (error) {
+                                if (error.status === 302) {
+                                    document.getElementById("loginInvalidError").innerHTML = "Username or Password Invalid!";
+                                }
+                                else if (error.status === 403) {
+                                $location.path('/forbidden');
+                                }
+                                else {
+                                $location.path('/notFound');
+                                                }
+                            });
             }
         };
 
@@ -66,6 +73,9 @@ function SigningSharedService() {
                 if(error.status === 403){
                     self.logout();              //calling 2 times
                 }
+                else{
+                                $location.path('/notFound');
+                }
             })
         }
 
@@ -80,6 +90,6 @@ function SigningSharedService() {
 
     }
 
-    angular.module('bankingapp-ui').controller('SigningController', ['$http', '$location', 'SigningAccountService', 'SigningSharedService', SigningController]);
+    angular.module('bankingapp-ui').controller('SigningController', ['$http', '$location', 'SigningUserService', SigningController]);
 
 }());

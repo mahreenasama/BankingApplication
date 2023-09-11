@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-ini="$ctrl.accountDetails()">
     <a class="nav-link" href="#!/account">
         <button class="btn btn-outline-dark" type="button"><- Back to Accounts</button>
     </a>
@@ -10,31 +10,31 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Id</label>
             <div class="col-sm-4">
-                {{$ctrl.sharedService.account.id}}
+                {{$ctrl.accountItem.id}}
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-4">
-                {{$ctrl.sharedService.account.name}}
+                {{$ctrl.accountItem.name}}
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-4">
-                {{$ctrl.sharedService.account.email}}
+                {{$ctrl.accountItem.email}}
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Address</label>
             <div class="col-sm-4">
-                {{$ctrl.sharedService.account.address}}
+                {{$ctrl.accountItem.address}}
             </div>
         </div>
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Balance</label>
         <div class="col-sm-4">
-            PKR {{$ctrl.sharedService.accountBalance.amount}} ({{$ctrl.sharedService.accountBalance.date}})
+            PKR {{$ctrl.balanceItem.amount}} ({{$ctrl.balanceItem.date}})
         </div>
     </div>
 
@@ -42,7 +42,7 @@
 
     <div class="row">
         <div class="col m-1">
-            <button class="btn btn-success" type="button" ng-click="$ctrl.viewBalanceHistory($ctrl.sharedService.account.id)">View Balance History</button>
+            <button class="btn btn-success" type="button" ng-click="$ctrl.viewBalanceHistory($ctrl.loggedInUserAccountId)">View Balance History</button>
         </div>
     </div>
     <div class="row" ng-if="$ctrl.showBalanceHistory">
@@ -73,7 +73,7 @@
 
     <div class="row">
         <div class="col m-1">
-            <button class="btn btn-success" type="button" ng-click="$ctrl.viewTransactions($ctrl.sharedService.account.id)">View Transactions</button>
+            <button class="btn btn-success" type="button" ng-click="$ctrl.viewTransactions($ctrl.loggedInUserAccountId)">View Transactions</button>
         </div>
     </div>
     <div class="row" ng-if="$ctrl.showTransactions">

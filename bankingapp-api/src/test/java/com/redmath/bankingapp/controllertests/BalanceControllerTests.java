@@ -50,32 +50,36 @@ public class BalanceControllerTests {
     @Test
     @Order(2)
     public void testGetLatestBalanceByAccountId() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances")
+                        .param("accountId","1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances")
+                        .param("accountId","1")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances")
+                        .param("accountId","1")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest/1")
-                        .with(testUser("kamal2","USER"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances")
+                        .param("accountId","2")
+                        .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -83,32 +87,36 @@ public class BalanceControllerTests {
     @Test
     @Order(3)
     public void testGetBalanceHistoryByAccountId() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/balance-history")
+                        .param("accountId","1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/balance-history")
+                        .param("accountId","1")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/balance-history")
+                        .param("accountId","1")
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/balanceHistory/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balance/balance-history")
+                        .param("accountId","1")
                         .with(testUser("kamal2","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));

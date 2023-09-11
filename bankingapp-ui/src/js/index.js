@@ -31,11 +31,11 @@
                 templateUrl: 'account/createAccount.html',
                 controller: 'AccountController as $ctrl'
             })
-            .when('/updateAccount', {
+            .when('/updateAccount/:id', {
                 templateUrl: 'account/updateAccount.html',
                 controller: 'AccountController as $ctrl'
             })
-            .when('/accountDetails', {
+            .when('/accountDetails/:id', {
                 templateUrl: 'account/accountDetails.html',
                 controller: 'AccountController as $ctrl'
             })
@@ -59,15 +59,15 @@
                 templateUrl: 'transaction/transfer.html',
                 controller: 'TransactionController as $ctrl'
             })
-            .when('/userDetails/:userAccountId', {
+            .when('/userDetails/:accountId', {
                 templateUrl: 'user/userDetails.html',
                 controller: 'AccountController as $ctrl'
             })
-            .when('/transferByUser/:fromAccountId/:prevBalance', {
+            .when('/transferByUser/:accountId', {
                  templateUrl: 'transaction/transferByUser.html',
                  controller: 'TransactionController as $ctrl'
             })
-            .when('/changePassword/:accId', {
+            .when('/changePassword/:accountId', {
                  templateUrl: 'user/changePassword.html',
                  controller: 'AccountController as $ctrl'
             })

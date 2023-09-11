@@ -25,6 +25,8 @@ public class BalanceService {
 
     public Balance getLatestBalanceByAccountId(Long accountId, Authentication auth){
         User user = userService.findByUname(auth.getName());
+        //handling the error that occurs when user receives amount
+
         if(user.getRoles().equals("ADMIN")){
             return balanceRepository.getLatestBalanceByAccountId(accountId, accountId);
         }
@@ -56,5 +58,10 @@ public class BalanceService {
     public Balance updateBalanceById(Long id, Balance updatedBalanceData){
         updatedBalanceData.setId(id);                                   //assigning the same id so that it updates, not creates
         return balanceRepository.save(updatedBalanceData);
+    }
+
+    //for internal use of API
+    public Balance getLatestBalanceByAccId(Long accId){
+        return balanceRepository.getLatestBalanceByAccountId(accId, accId);
     }
 }

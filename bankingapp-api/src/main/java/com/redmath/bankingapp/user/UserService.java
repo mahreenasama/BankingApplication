@@ -19,21 +19,19 @@ public class UserService implements UserDetailsService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    /*public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }*/
-
     public User findByUname(String uname){
-        return  userRepository.findByUname(uname);
+        return userRepository.findByUname(uname);
     }
 
     public User createUser(User user){
         return userRepository.save(user);
     }
+
     public User updateUserById(Long id, User user){
         user.setId(id);
         return userRepository.save(user);
     }
+
     public User getUserByAccountId(Long accountId, Authentication auth){
         User user = userRepository.findByUname(auth.getName());
 

@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container" ng-init="$ctrl.updateAccount()">
     <a class="nav-link" href="#!/account">
         <button class="btn btn-outline-dark" type="button"><- Back to Accounts</button>
     </a>
-    <form ng-submit="$ctrl.updateAccount()">
+    <form ng-submit="$ctrl.update()">
         <div class="row mb-3">
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
@@ -12,25 +12,25 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Id</label>
             <div class="col-sm-4">
-                <input class="form-control" type="text" id="id" ng-model="$ctrl.sharedService.account.id" disabled/>
+                <input class="form-control" type="text" id="id" ng-model="$ctrl.accountItem.id" disabled/>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-4">
-                <input class="form-control" type="text" id="name" ng-model="$ctrl.sharedService.account.name" required />
+                <input class="form-control" type="text" id="name" ng-model="$ctrl.accountItem.name" required />
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-4">
-                <input class="form-control" type="email" id="email" ng-model="$ctrl.sharedService.account.email" required />
+                <input class="form-control" type="email" id="email" ng-model="$ctrl.accountItem.email" required />
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Address</label>
             <div class="col-sm-4">
-                <textarea class="form-control" rows="5" id="address" ng-model="$ctrl.sharedService.account.address" required> </textarea>
+                <textarea class="form-control" rows="5" id="address" ng-model="$ctrl.accountItem.address" required> </textarea>
             </div>
         </div>
         <div class="row mb-3">

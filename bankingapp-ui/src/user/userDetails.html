@@ -1,10 +1,13 @@
-<div class="container" ng-init="$ctrl.viewUserDetails($ctrl.sharedService.loggedInUserAccountId)">
+<div class="container" ng-init="$ctrl.viewUserDetails()">
     <div class="row">
         <div class="col-2 bg-dark text-light me-5">
+            <a class="m-3" href="#!/logout">
+                <button class="btn btn-danger" type="button" >Logout</button>
+            </a>
             <h4 class="p-3">MENU</h4>
-            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewBalanceHistory($ctrl.sharedService.loggedInUserAccountId)">View Balance History</button>
-            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewTransactions($ctrl.sharedService.loggedInUserAccountId)">View Transactions</button>
-                <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.checkTransfer($ctrl.balanceItem.amount, $ctrl.sharedService.loggedInUserAccountId)">Transfer Amount</button>
+            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewBalanceHistory()">View Balance History</button>
+            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewTransactions()">View Transactions</button>
+                <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.checkTransfer($ctrl.balanceItem.amount)">Transfer Amount</button>
                 <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.goToChangePassword($ctrl.sharedService.loggedInUserAccountId)">Change Password</button>
 
         </div>

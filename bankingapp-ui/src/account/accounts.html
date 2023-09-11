@@ -1,6 +1,9 @@
 <div class="container-fluid" ng-init="$ctrl.loadAccounts()">
     <div class="row">
         <div class="col-2 bg-dark text-light me-5">
+            <a class="m-3" href="#!/logout">
+                <button class="btn btn-danger" type="button" >Logout</button>
+            </a>
             <h4 class="p-3">MENU</h4>
             <a href="#!/createAccount">
                 <button class="btn btn-outline-light m-1" type="button">Create Account</button>
@@ -44,9 +47,9 @@
                             <td>{{item.account.address}}</td>
                             <td>PKR {{item.balance.amount}} ({{item.balance.date}})</td>
                             <td>
-                                <button class="btn btn-warning" type="button" ng-click="$ctrl.update(item.account.id)">Update</button>
+                                <button class="btn btn-warning" type="button" ng-click="$ctrl.goForUpdateAccount(item.account.id)">Update</button>
                                 <button class="btn btn-danger" type="button" ng-click="$ctrl.delete(item.account.id)">Delete</button>
-                                <button class="btn btn-info" type="button" ng-click="$ctrl.viewDetails(item.account.id)">View Details</button>
+                                <button class="btn btn-info" type="button" ng-click="$ctrl.goForAccountDetails(item.account.id)">Update</button>
                             </td>
                         </tr>
                         </tbody>

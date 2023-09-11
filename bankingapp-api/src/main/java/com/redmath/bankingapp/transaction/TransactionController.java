@@ -18,27 +18,26 @@ public class TransactionController {
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/{accountId}")
-    public ResponseEntity<Map<String, Transaction>> depositOrWithdrawAmount(@PathVariable("accountId") Long accountId, @RequestBody Transaction transaction, Authentication auth)
+    @PostMapping
+    public ResponseEntity<Map<String, Transaction>> depositOrWithdrawAmount(@RequestParam(name = "accountId") Long accountId, @RequestBody Transaction transaction)
     {
-        Transaction transactionMade = transactionService.depositAmount(accountId, transaction, auth);
-        return ResponseEntity.ok(Map.of("content", transactionMade));
-
+        Transaction transactionMade = transactionService.depositOrWithdrawAmount(accountId, transaction);
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", transactionMade));
     }
 
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @PostMapping("/transfer/{fromAccountId}/{toAccountId}")
-    public ResponseEntity<Map<String, Transaction>> transferAmount(@PathVariable("fromAccountId") Long fromAccountId,
-                                                      @PathVariable("toAccountId") Long toAccountId,
+    @PostMapping("/transfer")
+    public ResponseEntity<Map<String, Transaction>> transferAmount(@RequestParam(name = "fromAccountId") Long fromAccountId,
+                                                      @RequestParam(name = "toAccountId") Long toAccountId,
                                                       @RequestBody int amount,
                                                       Authentication auth)
     {
         Transaction transferredTo = transactionService.transferAmount(fromAccountId, toAccountId, amount, auth);
         if (transferredTo == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(Map.of("content", transferredTo));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", transferredTo));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -47,22 +46,22 @@ public class TransactionController {
     {
         List<Transaction> transactions = transactionService.getAllTransactions();
         if (transactions.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(Map.of("content", transactions));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", transactions));
     }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @GetMapping("/allTransactions/{accountId}")
-    public ResponseEntity<Map<String, List<Transaction>>> getAllTransactionsByAccountId(@PathVariable("accountId") Long accountId, Authentication auth)
+    @GetMapping("/transaction-history")
+    public ResponseEntity<Map<String, List<Transaction>>> getAllTransactionsByAccountId(@RequestParam(name = "accountId") Long accountId, Authentication auth)
     {
         List<Transaction> transactions = transactionService.getAllTransactionsByAccountId(accountId, auth);
         if (transactions==null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         else if(transactions.isEmpty()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(Map.of("content", transactions));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", transactions));
     }
 }

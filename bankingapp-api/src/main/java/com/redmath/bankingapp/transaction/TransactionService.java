@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -39,77 +38,46 @@ public class TransactionService {
         User user = userService.findByUname(auth.getName());
         boolean userAuthenticated = true;
 
-        if(user.getRoles().equals("USER") && targetAccount.isPresent()){
+        if(user.getRoles().equals("USER")){
             userAuthenticated = user.getAccount().getId().toString().equals(fromAccountId.toString());
         }
-        if(userAuthenticated){
+        if(userAuthenticated && targetAccount.isPresent()){
             Transaction transactionForSender = new Transaction(LocalDate.now(), "Transferred to account # "+toAccountId, amount, "- DB", accountService.getAccountById(fromAccountId));
-            this.withdrawAmount(fromAccountId, transactionForSender, auth);       //withdraw from that account
+            this.depositOrWithdrawAmount(fromAccountId, transactionForSender);       //withdraw from that account
 
             Transaction transactionForRecipient = new Transaction(transactionForSender.getDate(), "Received from account # "+fromAccountId, amount, "+ CR", accountService.getAccountById(toAccountId));
-            return this.depositAmount(toAccountId, transactionForRecipient, auth);         //return that who received
+            return this.depositOrWithdrawAmount(toAccountId, transactionForRecipient);         //return that who received
         }
         return null;
     }
 
-    public Transaction depositAmount(Long accountId, Transaction transaction, Authentication auth) {
-        if(transaction.getDate()==null){
-            transaction.setDate(LocalDate.now());
-        }
-        if(transaction.getDescription()==null){
-            transaction.setDescription("Deposit");
-        }
-        if(transaction.getDebitCreditIndicator()==null){
-            transaction.setDebitCreditIndicator("+ CR");
-        }
+    public Transaction depositOrWithdrawAmount(Long accountId, Transaction transaction) {
+        transaction.setDate(LocalDate.now());
+
         transaction.setAccount(accountService.getAccountById(accountId));
         Transaction newTransaction = transactionRepository.save(transaction);
 
         //now update balances after transaction as well:
-        //Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, auth);
-        Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, auth);
+        Balance oldBalance = balanceService.getLatestBalanceByAccId(accountId);
 
+        int currentBalance;
+        if(newTransaction.getDebitCreditIndicator().equals("+ CR")){
+            currentBalance = oldBalance.getAmount() + newTransaction.getAmount();
+        }
+        else{
+            currentBalance = oldBalance.getAmount() - newTransaction.getAmount();
+        }
 
         if(oldBalance.getDate().toString().equals(newTransaction.getDate().toString())){
             //if transaction is performed on the same day, then just update balance
-            Balance updatedBalance = new Balance(oldBalance.getDate(), oldBalance.getAmount() + newTransaction.getAmount(), "+ CR", oldBalance.getAccount());
+            Balance updatedBalance = new Balance(oldBalance.getDate(), currentBalance, newTransaction.getDebitCreditIndicator(), oldBalance.getAccount());
             balanceService.updateBalanceById(oldBalance.getId(), updatedBalance);
         }
         else{
             //else enter a new record/row of balance
-            Balance newBalance = new Balance(newTransaction.getDate(), oldBalance.getAmount() + newTransaction.getAmount(), "+ CR", oldBalance.getAccount());
+            Balance newBalance = new Balance(newTransaction.getDate(), currentBalance, newTransaction.getDebitCreditIndicator(), oldBalance.getAccount());
             balanceService.createBalance(newBalance);
         }
-
-        return newTransaction;
-    }
-    public Transaction withdrawAmount(Long accountId, Transaction transaction, Authentication auth) {
-        if(transaction.getDate()==null){
-            transaction.setDate(LocalDate.now());
-        }
-        if(transaction.getDescription()==null){
-            transaction.setDescription("Withdraw");
-        }
-        if(transaction.getDebitCreditIndicator()==null){
-            transaction.setDebitCreditIndicator("- DB");
-        }
-        transaction.setAccount(accountService.getAccountById(accountId));
-        Transaction newTransaction = transactionRepository.save(transaction);
-
-        //now update balances after transaction as well:
-        Balance oldBalance = balanceService.getLatestBalanceByAccountId(accountId, auth);
-
-        if(oldBalance.getDate().toString().equals(newTransaction.getDate().toString())){
-            //if transaction is performed on the same day, then just update balance
-            Balance updatedBalance = new Balance(oldBalance.getDate(), oldBalance.getAmount() - newTransaction.getAmount(), "- DB", oldBalance.getAccount());
-            balanceService.updateBalanceById(oldBalance.getId(), updatedBalance);
-        }
-        else{
-            //else enter a new record/row of balance
-            Balance newBalance = new Balance(newTransaction.getDate(), oldBalance.getAmount() - newTransaction.getAmount(), "- DB", oldBalance.getAccount());
-            balanceService.createBalance(newBalance);
-        }
-
         return newTransaction;
     }
 
