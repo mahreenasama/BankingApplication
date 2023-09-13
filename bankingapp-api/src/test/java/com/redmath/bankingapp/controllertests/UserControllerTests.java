@@ -29,7 +29,7 @@ public class UserControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/findByUname")
                         .param("uname", "sara1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -59,7 +59,7 @@ public class UserControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
                         .param("accountId","1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -86,7 +86,7 @@ public class UserControllerTests {
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -132,7 +132,7 @@ public class UserControllerTests {
                         .contentType("application/json")
                         .content("saraaa"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isForbidden());
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
 
     }
 

@@ -1,8 +1,8 @@
-<div class="container" ng-init="$ctrl.updateAccount()">
-    <a class="nav-link" href="#!/account">
+<div class="container" ng-init="$ctrl.getPrevDataToUpdate()">
+    <a class="nav-link" href="#!/accounts">
         <button class="btn btn-outline-dark" type="button"><- Back to Accounts</button>
     </a>
-    <form ng-submit="$ctrl.update()">
+    <form ng-submit="$ctrl.updateAccount()">
         <div class="row mb-3">
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
@@ -36,7 +36,7 @@
         <div class="row mb-3">
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
-                <button class="btn btn-outline-dark" type="submit">Save</button>
+                <button class="btn btn-outline-dark" type="submit">Update</button>
             </div>
         </div>
     </form>

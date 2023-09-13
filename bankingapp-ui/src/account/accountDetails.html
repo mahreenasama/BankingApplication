@@ -1,5 +1,5 @@
-<div class="container" ng-ini="$ctrl.accountDetails()">
-    <a class="nav-link" href="#!/account">
+<div class="container" ng-init="$ctrl.accountDetails()">
+    <a class="nav-link" href="#!/accounts">
         <button class="btn btn-outline-dark" type="button"><- Back to Accounts</button>
     </a>
         <div class="row mt-3 mb-3">
@@ -42,7 +42,7 @@
 
     <div class="row">
         <div class="col m-1">
-            <button class="btn btn-success" type="button" ng-click="$ctrl.viewBalanceHistory($ctrl.loggedInUserAccountId)">View Balance History</button>
+            <button class="btn btn-success" type="button" ng-click="$ctrl.viewBalanceHistory($ctrl.userAccountId)">View Balance History</button>
         </div>
     </div>
     <div class="row" ng-if="$ctrl.showBalanceHistory">
@@ -73,7 +73,7 @@
 
     <div class="row">
         <div class="col m-1">
-            <button class="btn btn-success" type="button" ng-click="$ctrl.viewTransactions($ctrl.loggedInUserAccountId)">View Transactions</button>
+            <button class="btn btn-success" type="button" ng-click="$ctrl.viewTransactions($ctrl.userAccountId)">View Transaction History</button>
         </div>
     </div>
     <div class="row" ng-if="$ctrl.showTransactions">
@@ -104,6 +104,7 @@
         </div>
     </div>
 
+    <h6 class="text-danger" id="noTransactionsError"></h6>
 
 
 </div>

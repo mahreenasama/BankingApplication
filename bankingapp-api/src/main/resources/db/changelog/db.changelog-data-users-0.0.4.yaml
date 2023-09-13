@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: admin
               - column:
                   name: password
-                  value: '{noop}admin'
+                  value: '$2a$12$Pmr9Rmcqrk4jPI/xmQOVXePtTzlZmbA5M3RP9SzyUM4r7rK3ITxJy'
               - column:
                   name: roles
                   value: ADMIN
@@ -26,7 +26,7 @@ databaseChangeLog:
                   value: sara1
               - column:
                   name: password
-                  value: '{noop}sara'
+                  value: '$2a$12$N1s8J3Z0Gt5y8FbmUzrMtud6dzU8Kb4oUjcCWPkd7GxMQKnfr8jvC'
               - column:
                   name: roles
                   value: USER
@@ -44,7 +44,7 @@ databaseChangeLog:
                   value: kamal2
               - column:
                   name: password
-                  value: '{noop}kamal'
+                  value: '$2a$12$gCqjdmZ1JZ1jfUnA8UaCmemWpByrn9l0A5sxcTylneuDrSiS8etWu'
               - column:
                   name: roles
                   value: USER

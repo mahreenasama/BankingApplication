@@ -24,12 +24,12 @@ public class AccountControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+    /*@Test
     @Order(1)
     public void testGetAllAccounts() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -54,7 +54,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("")
                 ));
 
-        /*this.testDeleteAccount();       //deleting both accounts
+        this.testDeleteAccount();       //deleting both accounts
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
                         .with(testUser("admin","ADMIN"))
@@ -63,15 +63,15 @@ public class AccountControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
-                ));*/
-    }
+                ));
+    }*/
 
     @Test
     @Order(2)
     public void testGetAccountById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -116,14 +116,14 @@ public class AccountControllerTests {
     @Test
     @Order(3)
     public void getAccountsByNameLike() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
                         .param("name","a"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
                         .param("name","a")
                         .with(testUser("kamal2","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
@@ -132,7 +132,7 @@ public class AccountControllerTests {
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
                         .param("name","sara")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
@@ -142,7 +142,7 @@ public class AccountControllerTests {
                         Matchers.equalTo("{\"content\":[{\"id\":1,\"name\":\"sara\",\"email\":\"sara@gmail.com\",\"address\":\"lahore\"}]}")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/search")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
                         .param("name","a")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))

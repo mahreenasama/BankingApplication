@@ -35,37 +35,29 @@
                 templateUrl: 'account/updateAccount.html',
                 controller: 'AccountController as $ctrl'
             })
-            .when('/accountDetails/:id', {
+            .when('/accountDetails/:accountId', {
                 templateUrl: 'account/accountDetails.html',
                 controller: 'AccountController as $ctrl'
             })
-            .when('/account', {
+            .when('/accounts', {
                 templateUrl: 'account/accounts.html',
                 controller: 'AccountController as $ctrl'
             })
-            .when('/transaction', {
-                templateUrl: 'transaction/transaction.html',
+            .when('/transactions', {
+                templateUrl: 'transaction/transactions.html',
                 controller: 'TransactionController as $ctrl'
             })
-            .when('/deposit', {
-                templateUrl: 'transaction/deposit.html',
+            .when('/createTransaction', {
+                templateUrl: 'transaction/createTransaction.html',
                 controller: 'TransactionController as $ctrl'
             })
-            .when('/withdraw', {
-                templateUrl: 'transaction/withdraw.html',
-                controller: 'TransactionController as $ctrl'
-            })
-            .when('/transfer', {
-                templateUrl: 'transaction/transfer.html',
+            .when('/transferAmount/:user', {
+                templateUrl: 'transaction/transferAmount.html',
                 controller: 'TransactionController as $ctrl'
             })
             .when('/userDetails/:accountId', {
                 templateUrl: 'user/userDetails.html',
                 controller: 'AccountController as $ctrl'
-            })
-            .when('/transferByUser/:accountId', {
-                 templateUrl: 'transaction/transferByUser.html',
-                 controller: 'TransactionController as $ctrl'
             })
             .when('/changePassword/:accountId', {
                  templateUrl: 'user/changePassword.html',

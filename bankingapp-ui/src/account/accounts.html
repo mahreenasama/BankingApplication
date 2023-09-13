@@ -1,14 +1,14 @@
-<div class="container-fluid" ng-init="$ctrl.loadAccounts()">
+<div class="container-fluid" ng-init="$ctrl.search()">
     <div class="row">
         <div class="col-2 bg-dark text-light me-5">
-            <a class="m-3" href="#!/logout">
-                <button class="btn btn-danger" type="button" >Logout</button>
+            <a class="" href="#!/logout">
+                <button class="btn btn-danger m-2 mb-4" type="button" >Logout</button>
             </a>
-            <h4 class="p-3">MENU</h4>
+            <h4 class="ms-2">MENU</h4>
             <a href="#!/createAccount">
                 <button class="btn btn-outline-light m-1" type="button">Create Account</button>
             </a>
-            <a href="#!/transaction">
+            <a href="#!/transactions">
                 <button class="btn btn-outline-light m-1" type="button">Bank Transactions</button>
             </a>
         </div>
@@ -38,7 +38,7 @@
                             <th>Balance</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody ng-if="$ctrl.accountsExist">
 
                         <tr ng-repeat="item in $ctrl.accountsBalances track by $index">
                             <td>{{item.account.id}}</td>
@@ -47,9 +47,9 @@
                             <td>{{item.account.address}}</td>
                             <td>PKR {{item.balance.amount}} ({{item.balance.date}})</td>
                             <td>
-                                <button class="btn btn-warning" type="button" ng-click="$ctrl.goForUpdateAccount(item.account.id)">Update</button>
-                                <button class="btn btn-danger" type="button" ng-click="$ctrl.delete(item.account.id)">Delete</button>
-                                <button class="btn btn-info" type="button" ng-click="$ctrl.goForAccountDetails(item.account.id)">Update</button>
+                                <a class="btn btn-warning" href="#!/updateAccount/{{item.account.id}}">Update</a>
+                                <button class="btn btn-danger" ng-click="$ctrl.deleteAccount(item.account.id)">Delete</button>
+                                <a class="btn btn-info" href="#!/accountDetails/{{item.account.id}}">View Details</a>
                             </td>
                         </tr>
                         </tbody>

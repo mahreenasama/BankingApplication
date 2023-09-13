@@ -33,7 +33,8 @@ public class TransactionService {
 
     public Transaction transferAmount(Long fromAccountId, Long toAccountId, int amount, Authentication auth) {
 
-        Optional<Account> targetAccount = Optional.ofNullable(accountService.getAccountById(toAccountId));
+        Optional<Account> senderAccount = Optional.ofNullable(accountService.getAccountById(fromAccountId));
+        Optional<Account> receiverAccount = Optional.ofNullable(accountService.getAccountById(toAccountId));
 
         User user = userService.findByUname(auth.getName());
         boolean userAuthenticated = true;
@@ -41,7 +42,7 @@ public class TransactionService {
         if(user.getRoles().equals("USER")){
             userAuthenticated = user.getAccount().getId().toString().equals(fromAccountId.toString());
         }
-        if(userAuthenticated && targetAccount.isPresent()){
+        if(userAuthenticated && senderAccount.isPresent() && receiverAccount.isPresent()){
             Transaction transactionForSender = new Transaction(LocalDate.now(), "Transferred to account # "+toAccountId, amount, "- DB", accountService.getAccountById(fromAccountId));
             this.depositOrWithdrawAmount(fromAccountId, transactionForSender);       //withdraw from that account
 
@@ -52,33 +53,39 @@ public class TransactionService {
     }
 
     public Transaction depositOrWithdrawAmount(Long accountId, Transaction transaction) {
-        transaction.setDate(LocalDate.now());
 
-        transaction.setAccount(accountService.getAccountById(accountId));
-        Transaction newTransaction = transactionRepository.save(transaction);
+        Optional<Account> account = Optional.ofNullable(accountService.getAccountById(accountId));
 
-        //now update balances after transaction as well:
-        Balance oldBalance = balanceService.getLatestBalanceByAccId(accountId);
+        if(account.isPresent()) {
+            transaction.setDate(LocalDate.now());
 
-        int currentBalance;
-        if(newTransaction.getDebitCreditIndicator().equals("+ CR")){
-            currentBalance = oldBalance.getAmount() + newTransaction.getAmount();
-        }
-        else{
-            currentBalance = oldBalance.getAmount() - newTransaction.getAmount();
-        }
+            transaction.setAccount(accountService.getAccountById(accountId));
+            Transaction newTransaction = transactionRepository.save(transaction);
 
-        if(oldBalance.getDate().toString().equals(newTransaction.getDate().toString())){
-            //if transaction is performed on the same day, then just update balance
-            Balance updatedBalance = new Balance(oldBalance.getDate(), currentBalance, newTransaction.getDebitCreditIndicator(), oldBalance.getAccount());
-            balanceService.updateBalanceById(oldBalance.getId(), updatedBalance);
+            //now update balances after transaction as well:
+            Balance oldBalance = balanceService.getLatestBalanceByAccId(accountId);
+
+            int currentBalance;
+            if(newTransaction.getDebitCreditIndicator().equals("+ CR")){
+                currentBalance = oldBalance.getAmount() + newTransaction.getAmount();
+            }
+            else{
+                currentBalance = oldBalance.getAmount() - newTransaction.getAmount();
+            }
+
+            if(oldBalance.getDate().toString().equals(newTransaction.getDate().toString())){
+                //if transaction is performed on the same day, then just update balance
+                Balance updatedBalance = new Balance(oldBalance.getDate(), currentBalance, newTransaction.getDebitCreditIndicator(), oldBalance.getAccount());
+                balanceService.updateBalanceById(oldBalance.getId(), updatedBalance);
+            }
+            else{
+                //else enter a new record/row of balance
+                Balance newBalance = new Balance(newTransaction.getDate(), currentBalance, newTransaction.getDebitCreditIndicator(), oldBalance.getAccount());
+                balanceService.createBalance(newBalance);
+            }
+            return newTransaction;
         }
-        else{
-            //else enter a new record/row of balance
-            Balance newBalance = new Balance(newTransaction.getDate(), currentBalance, newTransaction.getDebitCreditIndicator(), oldBalance.getAccount());
-            balanceService.createBalance(newBalance);
-        }
-        return newTransaction;
+        return null;
     }
 
     public List<Transaction> getAllTransactionsByAccountId(Long accountId, Authentication auth){

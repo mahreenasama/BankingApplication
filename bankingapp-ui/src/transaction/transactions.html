@@ -1,22 +1,17 @@
 <div class="container-fluid" ng-init="$ctrl.allTransactions()">
     <div class="row mt-4 mb-4">
-        <div class="col-3">
-            <a href="#!/account">
+        <div class="col-4">
+            <a href="#!/accounts">
                 <button class="btn btn-outline-dark m-1 w-100" type="button"><- Back To Accounts</button>
             </a>
         </div>
-        <div class="col-3">
-            <a href="#!/deposit">
-                <button class="btn btn-success m-1 w-100" type="button">Deposit Amount</button>
+        <div class="col-4">
+            <a href="#!/createTransaction">
+                <button class="btn btn-success m-1 w-100" type="button">Create Transaction</button>
             </a>
         </div>
-        <div class="col-3">
-            <a href="#!/withdraw">
-                <button class="btn btn-success m-1 w-100" type="button">Withdraw Amount</button>
-            </a>
-        </div>
-        <div class="col-3">
-            <a href="#!/transfer">
+        <div class="col-4">
+            <a href="#!/transferAmount/admin">
                 <button class="btn btn-success m-1 w-100" type="button">Transfer Amount</button>
             </a>
         </div>
@@ -43,6 +38,9 @@
                         </tr>
                         </tbody>
                     </table>
+
                 </div>
             </div>
+    <h6 class="text-danger" id="noTransactionsError"></h6>
+
 </div>

@@ -28,7 +28,7 @@ public class BalanceControllerTests {
     public void testGetLatestBalances() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/latest"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -53,7 +53,7 @@ public class BalanceControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances")
                         .param("accountId","1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -90,7 +90,7 @@ public class BalanceControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/balances/balance-history")
                         .param("accountId","1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));

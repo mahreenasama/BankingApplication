@@ -1,6 +1,5 @@
 package com.redmath.bankingapp.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.redmath.bankingapp.account.Account;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;

@@ -113,7 +113,13 @@ paths:
     get:
       tags:
       - account-controller
-      operationId: getAllAccounts
+      operationId: getAccountsByNameLike
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -300,6 +306,26 @@ paths:
                 type: object
                 additionalProperties:
                   $ref: '#/components/schemas/User'
+  /api/v1/users/findByUname:
+    get:
+      tags:
+      - user-controller
+      operationId: getUserByUname
+      parameters:
+      - name: uname
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/User'
   /api/v1/transactions/transaction-history:
     get:
       tags:
@@ -383,28 +409,6 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Balance'
-  /api/v1/accounts/search:
-    get:
-      tags:
-      - account-controller
-      operationId: getAccountsByNameLike
-      parameters:
-      - name: name
-        in: query
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-                additionalProperties:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Account'
   /login:
     post:
       tags:
@@ -426,6 +430,18 @@ paths:
           description: Forbidden
 components:
   schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
     User:
       type: object
       properties:
@@ -440,18 +456,8 @@ components:
           type: string
         status:
           type: string
-    Account:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        email:
-          type: string
-        address:
-          type: string
+        account:
+          $ref: '#/components/schemas/Account'
     Transaction:
       type: object
       properties:

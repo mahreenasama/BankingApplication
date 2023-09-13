@@ -1,14 +1,17 @@
-<div class="container" ng-init="$ctrl.viewUserDetails()">
+<div class="container" ng-init="$ctrl.accountDetails()">
     <div class="row">
-        <div class="col-2 bg-dark text-light me-5">
+        <div class="col-3 bg-dark text-light me-5">
             <a class="m-3" href="#!/logout">
-                <button class="btn btn-danger" type="button" >Logout</button>
+                <button class="btn btn-danger m-2 mb-4" type="button" >Logout</button>
             </a>
             <h4 class="p-3">MENU</h4>
-            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewBalanceHistory()">View Balance History</button>
-            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewTransactions()">View Transactions</button>
+            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewBalanceHistory($ctrl.userAccountId)">View Balance History</button>
+            <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.viewTransactions($ctrl.userAccountId)">View Transaction History</button>
                 <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.checkTransfer($ctrl.balanceItem.amount)">Transfer Amount</button>
-                <button class="btn btn-outline-light m-1" type="button" ng-click="$ctrl.goToChangePassword($ctrl.sharedService.loggedInUserAccountId)">Change Password</button>
+
+            <a class="" href="#!/changePassword/{{$ctrl.userAccountId}}">
+                <button class="btn btn-outline-light m-1" type="button">Change Password</button>
+            </a>
 
         </div>
 
@@ -100,6 +103,7 @@
                     </table>
                 </div>
             </div>
+            <h6 class="text-danger" id="noTransactionsError"></h6>
 
         </div>
     </div>

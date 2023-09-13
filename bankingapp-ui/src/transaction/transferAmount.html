@@ -1,8 +1,8 @@
-<div class="container">
-    <a class="nav-link" href="#!/transaction">
+<div class="container" ng-init="$ctrl.enableAdminFields()">
+    <a class="nav-link" href="#!/transactions">
         <button class="btn btn-outline-dark" type="button"><- Back to Transactions</button>
     </a>
-    <form ng-submit="$ctrl.transfer()">
+    <form ng-submit="$ctrl.transferAmount()">
         <div class="row mb-3">
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
@@ -15,16 +15,19 @@
                 <input class="form-control" type="number" id="id" min="1" placeholder="Id" ng-model="$ctrl.transactionItem.id" autofocus />
             </div>
         </div>-->
-        <div class="row mb-3">
+        <h6 id="accountError" class="text-danger"></h6>
+        <h6 id="transferError" class="text-danger"></h6>
+
+        <div class="row mb-3" ng-if="$ctrl.transferByAdmin">
             <label class="col-sm-2 col-form-label">From Account Id</label>
             <div class="col-sm-4">
-                <input class="form-control" type="number" id="fromAccountId" min="1" placeholder="From Account Id" ng-model="$ctrl.fromAccId" required autofocus />
+                <input class="form-control" type="number" id="fromAccountId" min="1" placeholder="From Account Id" ng-model="$ctrl.fromAccountId" required autofocus />
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">To Account Id</label>
             <div class="col-sm-4">
-                <input class="form-control" type="number" id="toAccountId" min="1" placeholder="To Account Id" ng-model="$ctrl.toAccId" required autofocus />
+                <input class="form-control" type="number" id="toAccountId" min="1" placeholder="To Account Id" ng-model="$ctrl.toAccountId" required autofocus />
             </div>
         </div>
         <div class="row mb-3">

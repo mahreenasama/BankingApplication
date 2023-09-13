@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,18 +24,20 @@ public class AccountService {
     private UserService userService;
     @Autowired
     private BalanceService balanceService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     private final Logger logger= LoggerFactory.getLogger(getClass());
     @Value("${student.db.like.operator:%}")    //used to set default value of things
     private String likeOperator;
 
 
-    public List<Account> getAllAccounts()
+    /*public List<Account> getAllAccounts()
     {
         logger.debug("findAll");
         List<Account> accounts = new ArrayList<Account>();
         accountRepository.findAll().forEach(Account -> accounts.add(Account));
         return accounts;
-    }
+    }*/
 
     public Account getAccountById(Long id)
     {
@@ -66,7 +68,8 @@ public class AccountService {
         }
         Account newAccount= accountRepository.save(account);    //create account
 
-        User user = new User(newAccount.getName()+newAccount.getId(), "{noop}"+newAccount.getName(), "USER", "ACTIVE", newAccount);
+        String hashedPassword = passwordEncoder.encode(newAccount.getName());
+        User user = new User(newAccount.getName()+newAccount.getId(), hashedPassword, "USER", "ACTIVE", newAccount);
         userService.createUser(user);                           //create a user for this account
 
         Balance balance=new Balance(LocalDate.now(), 0, "+ CR", newAccount);

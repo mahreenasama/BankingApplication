@@ -17,11 +17,22 @@ public class AccountController {
     private AccountService accountService;
 
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    /*@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<Map<String, List<Account>>> getAllAccounts()
     {
         List<Account> accounts = accountService.getAllAccounts();
+        if (accounts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accounts));
+    }*/
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping
+    public ResponseEntity<Map<String, List<Account>>> getAccountsByNameLike(@RequestParam(name="name") String name)
+    {
+        List<Account> accounts = accountService.getAccountsByNameLike(name);
         if (accounts.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -46,17 +57,6 @@ public class AccountController {
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", account));
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/search")
-    public ResponseEntity<Map<String, List<Account>>> getAccountsByNameLike(@RequestParam(name="name") String name)
-    {
-        List<Account> accounts = accountService.getAccountsByNameLike(name);
-        if (accounts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accounts));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

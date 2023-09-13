@@ -25,7 +25,7 @@ public class UserController {
         if (user != null) {
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", user));
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PreAuthorize("hasAuthority('USER')")
@@ -36,7 +36,7 @@ public class UserController {
         if (user != null) {
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", user));
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PreAuthorize("hasAuthority('USER')")
@@ -47,7 +47,7 @@ public class UserController {
         if (updatedUser != null) {
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", updatedUser));
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 }

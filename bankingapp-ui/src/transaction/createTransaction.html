@@ -1,12 +1,12 @@
 <div class="container">
-    <a class="nav-link" href="#!/transaction">
+    <a class="nav-link" href="#!/transactions">
         <button class="btn btn-outline-dark" type="button"><- Back to Transactions</button>
     </a>
-    <form ng-submit="$ctrl.withdraw()">
+    <form ng-submit="$ctrl.checkCreateTransaction()">
         <div class="row mb-3">
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
-                <h4>Withdraw Amount</h4>
+                <h4>Create Transaction</h4>
             </div>
         </div>
         <!--<div class="row mb-3">
@@ -15,10 +15,23 @@
                 <input class="form-control" type="number" id="id" min="1" placeholder="Id" ng-model="$ctrl.transactionItem.id" autofocus />
             </div>
         </div>-->
+        <h6 id="accountError" class="text-danger"></h6>
+        <h6 id="withdrawError" class="text-danger"></h6>
+        <h6 id="minDepositError" class="text-danger"></h6>
+
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Account Id</label>
             <div class="col-sm-4">
-                <input class="form-control" type="number" id="accountId" min="1" placeholder="Account Id" ng-model="$ctrl.accId" required autofocus />
+                <input class="form-control" type="number" id="accountId" min="1" placeholder="Account Id" ng-model="$ctrl.accountId" required autofocus />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-4">
+                <select class="form-select" aria-label="Default select example" ng-model="$ctrl.transactionItem.description" required>
+                    <option value="Deposit" selected>Deposit</option>
+                    <option value="Withdraw">Withdraw</option>
+                </select>
             </div>
         </div>
         <div class="row mb-3">
@@ -31,7 +44,7 @@
         <div class="row mb-3">
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
-                <button class="btn btn-outline-dark" type="submit">Withdraw</button>
+                <button class="btn btn-outline-dark" type="submit">Perform Transaction</button>
             </div>
         </div>
     </form>

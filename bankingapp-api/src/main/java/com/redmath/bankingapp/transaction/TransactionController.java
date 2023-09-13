@@ -22,6 +22,9 @@ public class TransactionController {
     public ResponseEntity<Map<String, Transaction>> depositOrWithdrawAmount(@RequestParam(name = "accountId") Long accountId, @RequestBody Transaction transaction)
     {
         Transaction transactionMade = transactionService.depositOrWithdrawAmount(accountId, transaction);
+        if(transactionMade == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", transactionMade));
     }
 

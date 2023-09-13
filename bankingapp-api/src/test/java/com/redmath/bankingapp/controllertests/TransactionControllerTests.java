@@ -65,7 +65,20 @@ public class TransactionControllerTests {
                         .content("{\"description\":\"withdraw\",\"amount\":\"20\",\"debitCreditIndicator\":\"- DB\"}"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions")
+                        .param("accountId","10")
+                        .with(testUser("admin","ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("{\"description\":\"withdraw\",\"amount\":\"20\",\"debitCreditIndicator\":\"- DB\"}"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
     }
+
     @Test
     @Order(2)
     public void testTransferAmount() throws Exception {
@@ -89,6 +102,19 @@ public class TransactionControllerTests {
                         .content("30"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions/transfer")
+                        .param("fromAccountId","6")
+                        .param("toAccountId","1")
+                        .with(testUser("admin","ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json")
+                        .content("30"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.equalTo("")
+                ));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions/transfer")
                         .param("fromAccountId","1")
@@ -134,7 +160,7 @@ public class TransactionControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions/transaction-history")
                         .param("accountId","1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
@@ -176,7 +202,7 @@ public class TransactionControllerTests {
     public void testGetAllTransactions() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/transactions"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.content().string(
                         Matchers.equalTo("")
                 ));
