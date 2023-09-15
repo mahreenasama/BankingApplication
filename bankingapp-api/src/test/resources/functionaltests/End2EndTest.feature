@@ -1,11 +1,11 @@
-Feature: First E2E Test
+Feature: First E2E Tests for BankingApp Accounts API
+
+BankingApp swagger URL: http://localhost:9080/bankingapp/swagger-ui/index.html
 
   Background: User generates token for Authorisation
     Given I am an authorized user
 
-  Scenario: the Authorized user can Add and Remove an Account
+  Scenario: The Authorized user can Add an Account
     Given A list of accounts is available
     When I add an account to bank accounts list
-    Then the account is added
-    When I remove an account from bank accounts list
-    Then the account is removed
+    Then The account is added

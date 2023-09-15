@@ -21,42 +21,26 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<Map<String, List<Account>>> getAllAccounts()
     {
-        List<Account> accounts = accountService.getAllAccounts();
-        if (accounts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accounts));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accountService.getAllAccounts()));
     }*/
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<Map<String, List<Account>>> getAccountsByNameLike(@RequestParam(name="name") String name)
     {
-        List<Account> accounts = accountService.getAccountsByNameLike(name);
-        if (accounts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accounts));
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accountService.getAccountsByNameLike(name)));
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Account>> getAccountById(@PathVariable("id") Long id, Authentication auth)
     {
-        Account account;
         if(auth.getName().equals("admin")){
-            account = accountService.getAccountById(id);
-            if(account == null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accountService.getAccountById(id)));
         }
         else{
-            account = accountService.getAccountDetailsById(id, auth);
-            if(account == null){
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-            }
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", accountService.getAccountDetailsById(id, auth)));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("content", account));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -85,12 +69,7 @@ public class AccountController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteAccountById(@PathVariable("id") Long id)
     {
-        boolean accountExistedAndDeleted = accountService.deleteAccountById(id);
-        if(accountExistedAndDeleted){
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        accountService.deleteAccountById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

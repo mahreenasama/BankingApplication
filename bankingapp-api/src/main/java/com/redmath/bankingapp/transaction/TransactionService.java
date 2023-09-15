@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class TransactionService {
     private final Logger logger= LoggerFactory.getLogger(getClass());
 
 
+    @Transactional
     public Transaction transferAmount(Long fromAccountId, Long toAccountId, int amount, Authentication auth) {
 
         Optional<Account> senderAccount = Optional.ofNullable(accountService.getAccountById(fromAccountId));

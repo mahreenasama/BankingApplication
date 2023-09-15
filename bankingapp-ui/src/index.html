@@ -6,8 +6,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Banking WebApp</title>
+    <title ng-bind="{{$root.title}}">
+        Banking WebApp
+    </title>
+
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -56,6 +60,7 @@
 <script lang="javascript" src="lib/angular/angular.min.js"></script>
 <script lang="javascript" src="lib/angular-resource/angular-resource.min.js"></script>
 <script lang="javascript" src="lib/angular-route/angular-route.min.js"></script>
+
 <script lang="javascript" src="js/index.js"></script>
 <script lang="javascript" src="js/account/account.js"></script>
 <script lang="javascript" src="js/transaction/transaction.js"></script>

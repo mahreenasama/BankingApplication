@@ -48,7 +48,7 @@
         self.accountsExist = true;
 
         self.init = function() {
-            console.log('in init of account');
+            console.log('in init of account: ');
         }
 
         //----------- search account by name function --------------

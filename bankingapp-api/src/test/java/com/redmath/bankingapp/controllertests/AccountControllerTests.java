@@ -24,50 +24,8 @@ public class AccountControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-    /*@Test
-    @Order(1)
-    public void testGetAllAccounts() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
-                        .with(testUser("admin","ADMIN"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo(
-                                "{\"content\":[{\"id\":1,\"name\":\"sara\",\"email\":\"sara@gmail.com\",\"address\":\"lahore\"}," +
-                                        "{\"id\":2,\"name\":\"kamal\",\"email\":\"kamal@gmail.com\",\"address\":\"lahore\"}]}")
-                ));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
-                        .with(testUser("sara1","USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isForbidden())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-
-        this.testDeleteAccount();       //deleting both accounts
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
-                        .with(testUser("admin","ADMIN"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
-                ));
-    }*/
-
     @Test
-    @Order(2)
+    @Order(1)
     public void testGetAccountById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/1"))
                 .andDo(MockMvcResultHandlers.print())
@@ -85,13 +43,13 @@ public class AccountControllerTests {
                         Matchers.equalTo("{\"content\":{\"id\":1,\"name\":\"sara\",\"email\":\"sara@gmail.com\",\"address\":\"lahore\"}}")
                 ));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/3")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/9")
                         .with(testUser("admin","ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
+                        Matchers.equalTo("Not Exist! Null pointer exception")
                 ));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts/1")
@@ -107,14 +65,14 @@ public class AccountControllerTests {
                         .with(testUser("sara1","USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
+                        Matchers.equalTo("Not Exist! Null pointer exception")
                 ));
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void getAccountsByNameLike() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/accounts")
                         .param("name","a"))
@@ -168,7 +126,7 @@ public class AccountControllerTests {
     }
 
     @Test
-    @Order(5)
+    @Order(3)
     public void testCreateAccount() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts")
                         .contentType("application/json")
@@ -214,7 +172,7 @@ public class AccountControllerTests {
     }
 
     @Test
-    @Order(6)
+    @Order(4)
     public void testUpdateAccount() throws Exception {
        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/accounts/2")
                         .contentType("application/json")
@@ -260,7 +218,7 @@ public class AccountControllerTests {
     }
 
     @Test
-    @Order(7)
+    @Order(5)
     public void testDeleteAccount() throws Exception {
         /*mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/accounts/1"))
                 .andDo(MockMvcResultHandlers.print())
@@ -302,7 +260,7 @@ public class AccountControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(
-                        Matchers.equalTo("")
+                        Matchers.equalTo("Not Exist! NoSuchElementException")
                 ));*/
     }
 

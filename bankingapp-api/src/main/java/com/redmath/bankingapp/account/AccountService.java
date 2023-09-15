@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -100,12 +101,11 @@ public class AccountService {
         return null;
     }
 
-    public boolean deleteAccountById(Long id)
+    public void deleteAccountById(Long id)
     {
         if(!accountRepository.existsById(id)){
-            return false;
+            throw new NoSuchElementException();             //handling this in global handler class
         }
         accountRepository.deleteById(id);
-        return true;
     }
 }
